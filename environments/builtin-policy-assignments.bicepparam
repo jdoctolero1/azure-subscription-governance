@@ -12,7 +12,7 @@ param builtinPolicyAssignments = [
           ]
         }
       }
-  } 
+  }
   {
     policyId: '871b6d14-10aa-478d-b590-94f262ecfa99'
     assignmentName: 'assign-tag-environment-policy'
