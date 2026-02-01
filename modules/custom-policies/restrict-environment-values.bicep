@@ -1,7 +1,19 @@
-targetScope = 'subscription' // Definitions are usually subscription-level
+targetScope = 'subscription'
 
+@description('The short name for the policy resource ID.')
+@minLength(5)
 param policyName string
+
+@description('The policy display name that shows up in the Azure Portal.')
 param policyDisplayName string
+
+@description('The enviroment values that are allowed for the environment tag.')
+param environments array = [
+  'lab'
+  'dev'
+  'stg'
+  'prd' 
+]
 
 resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: policyName
@@ -21,12 +33,7 @@ resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/p
           displayName: 'Allowed Values'
           description: 'The list of allowed values for the environment tag.'
         }
-        defaultValue: [
-          'lab'
-          'dev'
-          'stg'
-          'prd'
-        ]
+        defaultValue: environments
       }
     }
     policyRule: {

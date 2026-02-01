@@ -1,7 +1,13 @@
-targetScope = 'subscription' // Definitions are usually subscription-level
+targetScope = 'subscription'
 
+@description('The short name for the policy resource ID.')
+@minLength(5)
 param policyName string
+
+@description('The policy display name that shows up in the Azure Portal.')
 param policyDisplayName string
+
+@description('The locations that resource are allowed to be deployed to.')
 param allowedLocations array
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {

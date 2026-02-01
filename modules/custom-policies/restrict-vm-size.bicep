@@ -1,7 +1,25 @@
-targetScope = 'subscription' // Definitions are usually subscription-level
+targetScope = 'subscription' 
 
+@description('The short name for the policy resource ID.')
+@minLength(5)
 param policyName string
+
+@description('The policy display name that shows up in the Azure Portal.')
 param policyDisplayName string
+
+@description('The policy display name that shows up in the Azure Portal.')
+param allowedVmSizes array = [
+  'Standard_B1s'
+  'Standard_B2s'
+  'Standard_D2s_v3'
+  'Standard_D2s_v4'
+]
+
+@description('The environments that will be restricted to the allowed VM sizes.')
+param environments array =  [
+  'dev' 
+  'lab'
+]
 
 resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: policyName
@@ -21,12 +39,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
           displayName: 'Allowed Dev VM Sizes'
           description: 'The list of SKUs allowed for lab or dev environments.'
         }
-        defaultValue: [
-          'Standard_B1s'
-          'Standard_B2s'
-          'Standard_D2s_v3'
-          'Standard_D2s_v4'
-        ]
+        defaultValue: allowedVmSizes
       }
     }
     policyRule: {
@@ -38,7 +51,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
           }
           {
             field: 'tags.environment'
-            in: ['dev', 'lab']
+            in: environments
           }
           {
             not: {
