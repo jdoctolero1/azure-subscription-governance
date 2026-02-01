@@ -1,5 +1,8 @@
 targetScope = 'subscription'
 
+@description('The unique name for the initiative.')
+param initiativeName string
+
 @description('The display name for the governance initiative. Default: Our Company Governance Baseline')
 param initiativeDisplayName string = 'Our Company Governance Baseline'
 
@@ -20,7 +23,7 @@ param initiativePolicyDefinitions array
 
 
 resource governanceInitiative 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
-  name: 'corp-governance-baseline'
+  name: initiativeName
   properties: {
     displayName: initiativeDisplayName
     description: initiativeDescription

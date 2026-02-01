@@ -3,7 +3,7 @@ targetScope = 'subscription' // Definitions are usually subscription-level
 param policyName string
 param policyDisplayName string
 
-resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: policyName
   properties: {
     displayName: policyDisplayName
@@ -22,8 +22,8 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
           description: 'The list of allowed values for the environment tag.'
         }
         defaultValue: [
-          'dev'
           'lab'
+          'dev'
           'stg'
           'prd'
         ]
@@ -50,4 +50,4 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
   }
 }
 
-output policyDefinitionId string = policyDefinition.id
+output policyDefinitionId string = restrictEnvironmentTagValuesPolicyDefinition.id

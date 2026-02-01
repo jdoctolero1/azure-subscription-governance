@@ -3,11 +3,11 @@ targetScope = 'subscription' // Definitions are usually subscription-level
 param policyName string
 param policyDisplayName string
 
-resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: policyName
   properties: {
     displayName: policyDisplayName
-    description: 'Denies expensive VM sizes if the resource group is tagged as lab or dev.'
+    description: 'Limits VM sizes to lower cost sizes if the resource is tagged as lab or dev.'
     policyType: 'Custom'
     mode: 'All'
     metadata: {
@@ -15,7 +15,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
       version: '1.0.0'
     }
     parameters: {
-      allowedSizes: {
+      allowedValues: {
         type: 'Array'
         metadata: {
           displayName: 'Allowed Dev VM Sizes'
@@ -43,7 +43,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
           {
             not: {
               field: 'Microsoft.Compute/virtualMachines/sku.name'
-              in: '[parameters(\'allowedSizes\')]'
+              in: '[parameters(\'allowedValues\')]'
             }
           }
         ]
@@ -55,4 +55,4 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
   }
 }
 
-output policyDefinitionId string = policyDefinition.id
+output policyDefinitionId string = restrictVmSizePolicyDefinition.id
