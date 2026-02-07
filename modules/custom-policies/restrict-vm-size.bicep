@@ -7,7 +7,7 @@ param policyName string
 @description('The policy display name that shows up in the Azure Portal.')
 param policyDisplayName string
 
-@description('The policy display name that shows up in the Azure Portal.')
+@description('The allowed VM Sizes for a specified group of environments')
 param allowedVmSizes array = [
   'Standard_B1s'
   'Standard_B2s'
@@ -16,9 +16,11 @@ param allowedVmSizes array = [
 ]
 
 @description('The environments that will be restricted to the allowed VM sizes.')
-param environments array =  [
+param allowedVmSizeEnvironments array =  [
   'dev' 
   'lab'
+  'stg'
+  'prd'
 ]
 
 resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
@@ -36,10 +38,18 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
       allowedVmSizes: {
         type: 'Array'
         metadata: {
-          displayName: 'Allowed Dev VM Sizes'
-          description: 'The list of SKUs allowed for lab or dev environments.'
+          displayName: 'Allowed VM Sizes'
+          description: 'The list of SKUs allowed.'
         }
         defaultValue: allowedVmSizes
+      }
+      allowedVmSizeEnvironments: {
+        type: 'Array'
+        metadata: {
+          displayName: 'Environments to apply VM size restrition to.'
+          description: 'The list of environments the VM Size restriction applies to.'
+        }
+        defaultValue: allowedVmSizeEnvironments
       }
     }
     policyRule: {
@@ -51,7 +61,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
           }
           {
             field: 'tags.environment'
-            in: environments
+            in: '[parameters(\'allowedVmSizeEnvironments\')]'
           }
           {
             not: {

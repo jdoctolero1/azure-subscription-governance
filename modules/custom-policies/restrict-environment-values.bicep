@@ -8,7 +8,7 @@ param policyName string
 param policyDisplayName string
 
 @description('The enviroment values that are allowed for the environment tag.')
-param environments array = [
+param allowedEnvironmentTagValues array = [
   'lab'
   'dev'
   'stg'
@@ -33,7 +33,7 @@ resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/p
           displayName: 'Allowed Values'
           description: 'The list of allowed values for the environment tag.'
         }
-        defaultValue: environments
+        defaultValue: allowedEnvironmentTagValues
       }
     }
     policyRule: {
