@@ -29,17 +29,6 @@ module vmSizePolicy '../modules/custom-policies/restrict-vm-size.bicep' = {
   ]
 }
 
-module allowedLocationsPolicy '../modules/custom-policies/allowed-locations.bicep' = {
-  name: 'deploy-allowed-locations-policy'
-  params: {
-    policyName: 'allowed-locations-policy'
-    policyDisplayName: 'Allowed Locations that Resource can be deployed'
-  }
-  dependsOn: [
-    vmSizePolicy
-  ]
-}
-
 var policyDefinitions = [
   // Require 'environment' tag on resources Policy
   {
@@ -82,10 +71,10 @@ var policyDefinitions = [
   }
   // Allowed Locations
   {
-    policyDefinitionId: allowedLocationsPolicy.outputs.policyDefinitionId
+    policyDefinitionId: tenantResourceId(policyDefinitionResourceRoot, 'e56962a6-4747-49cd-b67b-bf8b01975c4c')
     parameters: {
-      allowedLocations: {
-        value: '[parameters(\'allowedLocations\')]'
+      listOfAllowedLocations: {
+        value: '[parameters(\'listOfAllowedLocations\')]'
       }
     }
   }
@@ -132,7 +121,7 @@ module initiativeModule '../modules/initiatives/main.bicep' = {
         }
         defaultValue: ['lab']
       }
-      allowedLocations : {
+      listOfAllowedLocations : {
         type: 'Array'
         metadata: {
           displayName: 'Allowed Locations that Resource can be deployed'

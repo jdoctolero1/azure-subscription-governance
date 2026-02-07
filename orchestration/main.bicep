@@ -1,9 +1,13 @@
 targetScope = 'subscription'
 
+@description('The allowed VM sizes for the non-production environments')
 param allowedVmSizes array
+@description('The non-production environments')
 param restrictedVmSizeEnvironments array
+@description('The allowed values for the environment tag. ex: lab, dev, stg, prd')
 param allowedEnvironmentTagValues array
-param allowedLocations array
+@description('The regions that resource are allowed to be created in.')
+param listOfAllowedLocations array
 
 module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.bicep' = {
   name: 'deploy-environment-tag-initiative'
@@ -26,8 +30,8 @@ module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subs
       allowedEnvironmentTagValues: {
         value: allowedEnvironmentTagValues
       }
-      allowedLocations: {
-        value: allowedLocations
+      listOfAllowedLocations: {
+        value: listOfAllowedLocations
       }
     }
   }

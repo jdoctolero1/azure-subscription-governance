@@ -1,12 +1,5 @@
 using '../../orchestration/main.bicep'
 
-param allowedEnvironmentTagValues = [
-  'lab'
-  'dev'
-  'stg'
-  'prd'
-]
-
 param allowedVmSizes = [
   'Standard_B1s'
   'Standard_B2s'
@@ -19,7 +12,14 @@ param restrictedVmSizeEnvironments = [
   'dev'
 ]
 
-param allowedLocations = [
+param allowedEnvironmentTagValues = [
+  'lab'
+  'dev'
+  'stg'
+  'prd'
+]
+
+param listOfAllowedLocations = [
   'centralus'
   'eastus'
 ]
