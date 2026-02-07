@@ -33,7 +33,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
       version: '1.0.0'
     }
     parameters: {
-      allowedValues: {
+      allowedVmSizes: {
         type: 'Array'
         metadata: {
           displayName: 'Allowed Dev VM Sizes'
@@ -56,7 +56,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
           {
             not: {
               field: 'Microsoft.Compute/virtualMachines/sku.name'
-              in: '[parameters(\'allowedValues\')]'
+              in: '[parameters(\'allowedVmSizes\')]'
             }
           }
         ]

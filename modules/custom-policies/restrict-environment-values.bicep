@@ -27,7 +27,7 @@ resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/p
       version: '1.0.0'
     }
     parameters: {
-      allowedValues: {
+      allowedEnvironmentTagValues: {
         type: 'Array'
         metadata: {
           displayName: 'Allowed Values'
@@ -46,7 +46,7 @@ resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/p
           {
             // This checks if the LOWERCASE version of the tag value is NOT in your list
             value: '[toLower(field(\'tags[environment]\'))]'
-            notIn: '[parameters(\'allowedValues\')]'
+            notIn: '[parameters(\'allowedEnvironmentTagValues\')]'
           }
         ]
       }
