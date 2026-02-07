@@ -17,6 +17,5 @@ Policies Applied
 - Require the Tag named 'environment' on all resources.
 - All resources will inherit the 'environment' tag from it's resource group.
 - Restrict the values the 'environment' tag may have.
-- For non-production environements restrict the VM Sizes that are allowed based on the 'environment' tag.
+- For non-production environments restrict the VM Sizes that are allowed based on the 'environment' tag.
 - Limit the regions in which resources can be provisioned.
-
