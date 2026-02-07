@@ -18,3 +18,8 @@ param restrictedVmSizeEnvironments = [
   'lab'
   'dev'
 ]
+
+param allowedLocations = [
+  'centralus'
+  'eastus'
+]

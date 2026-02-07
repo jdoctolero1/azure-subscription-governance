@@ -29,6 +29,17 @@ module vmSizePolicy '../modules/custom-policies/restrict-vm-size.bicep' = {
   ]
 }
 
+module allowedLocationsPolicy '../modules/custom-policies/allowed-locations.bicep' = {
+  name: 'deploy-allowed-locations-policy'
+  params: {
+    policyName: 'allowed-locations-policy'
+    policyDisplayName: 'Allowed Locations that Resource can be deployed'
+  }
+  dependsOn: [
+    vmSizePolicy
+  ]
+}
+
 var policyDefinitions = [
   // Require 'environment' tag on resources Policy
   {
@@ -68,6 +79,15 @@ var policyDefinitions = [
         value: '[parameters(\'restrictedVmSizeEnvironments\')]'
        }       
       }
+  }
+  // Allowed Locations
+  {
+    policyDefinitionId: allowedLocationsPolicy.outputs.policyDefinitionId
+    parameters: {
+      allowedLocations: {
+        value: '[parameters(\'allowedLocations\')]'
+      }
+    }
   }
 ]
 
@@ -111,6 +131,13 @@ module initiativeModule '../modules/initiatives/main.bicep' = {
           displayName: 'Allowed VM sizes by environment'
         }
         defaultValue: ['lab']
+      }
+      allowedLocations : {
+        type: 'Array'
+        metadata: {
+          displayName: 'Allowed Locations that Resource can be deployed'
+        }
+        defaultValue: ['centralus']
       }
     }
     initiativePolicyDefinitions : policyDefinitions

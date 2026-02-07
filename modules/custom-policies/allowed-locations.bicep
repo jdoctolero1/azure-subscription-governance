@@ -8,7 +8,10 @@ param policyName string
 param policyDisplayName string
 
 @description('The locations that resource are allowed to be deployed to.')
-param allowedLocations array
+param allowedLocations array = [
+  'centralus'
+  'eastus'
+]
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: policyName

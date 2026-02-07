@@ -3,6 +3,7 @@ targetScope = 'subscription'
 param allowedVmSizes array
 param restrictedVmSizeEnvironments array
 param allowedEnvironmentTagValues array
+param allowedLocations array
 
 module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.bicep' = {
   name: 'deploy-environment-tag-initiative'
@@ -15,15 +16,18 @@ module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subs
     policyAssignmentName: 'DevOps Unlimited Corporate Baseline Assignment'
     policyDefinitionId: corporateBaselineInitiative.outputs.initiativeId
     policyParameters: {
-      tagName: { value : 'environment'}
+      tagName: { value: 'environment'}
       allowedVmSizes: {
         value: allowedVmSizes
       }
-      restrictedVmSizeEnvironments : {
+      restrictedVmSizeEnvironments: {
         value: restrictedVmSizeEnvironments
       }
-      allowedEnvironmentTagValues : {
+      allowedEnvironmentTagValues: {
         value: allowedEnvironmentTagValues
+      }
+      allowedLocations: {
+        value: allowedLocations
       }
     }
   }
