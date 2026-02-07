@@ -1,6 +1,14 @@
 targetScope = 'subscription'
 
 var policyDefinitionResourceRoot = 'Microsoft.Authorization/policyDefinitions'
+var initiativeDeploymentName = 'deploy-tagging-governance-initiative'
+var initiativeName = 'dou-corp-baseline-initiative'
+var initiativeDisplayName = '[Custom] DevOps Unlimited Corporate Baseline'
+var initiativeDescription ='Initiative sets the standard governance for DevOps Unlimited.'
+var initiativePolicyType = 'Custom'
+var requiredTagName = 'environment'
+var initiativeVersion = '1.0.0'
+var initiativeCategory = 'Governance'
 
 module restrictEnvironmentPolicy '../modules/custom-policies/restrict-environment-values.bicep' = {
   name: 'deploy-restrict-environment-policy'
@@ -14,20 +22,29 @@ module vmSizePolicy '../modules/custom-policies/restrict-vm-size.bicep' = {
   name: 'deploy-vm-size-policy'
   params: {
     policyName: 'deploy-vm-size-policy'
-    policyDisplayName: 'Restrict VM Sizes'
+    policyDisplayName: 'Restrict VM Sizes by Environment'
   }
   dependsOn: [
     restrictEnvironmentPolicy
   ]
 }
 
-var policyList = [
+var policyDefinitions = [
   // Require 'environment' tag on resources Policy
   {
     policyDefinitionId: tenantResourceId(policyDefinitionResourceRoot, '871b6d14-10aa-478d-b590-94f262ecfa99')
     parameters: {
       tagName: {
-        value: 'environment'
+        value: requiredTagName
+      }
+    }
+  }
+  //Inherit environment tag from resource group
+  {
+    policyDefinitionId: tenantResourceId(policyDefinitionResourceRoot, 'cd3aa116-8754-49c9-a813-ad46512ece54')
+    parameters: {
+      tagName: {
+        value: requiredTagName
       }
     }
   }
@@ -44,18 +61,18 @@ var policyList = [
 ]
 
 module initiativeModule '../modules/initiatives/main.bicep' = {
-  //name: 'deploy-tagging-governance-initiative'
+  name: initiativeDeploymentName
   params: {
-    initiativeName: 'deploy-dou-corp-baseline-initiative'
-    initiativeDisplayName: '[Custom] DevOps Unlimited Corporate Baseline'
-    initiativeDescription: 'Initiative sets the standard governance for DevOps Unlimited.'
-    initiativePolicyType: 'Custom'
+    initiativeName: initiativeName
+    initiativeDisplayName: initiativeDisplayName
+    initiativeDescription: initiativeDescription
+    initiativePolicyType: initiativePolicyType
     initiativeMetadata: {
-      category: 'Tags'
-      version: '1.0.0'
+      category: initiativeCategory
+      version: initiativeVersion
     }
     initiativeParameters: {}
-    initiativePolicyDefinitions : policyList
+    initiativePolicyDefinitions : policyDefinitions
   }
 }
 
