@@ -16,7 +16,7 @@ param allowedVmSizes array = [
 ]
 
 @description('The environments that will be restricted to the allowed VM sizes.')
-param allowedVmSizeEnvironments array =  [
+param restrictedVmSizeEnvironments array =  [
   'dev' 
   'lab'
   'stg'
@@ -43,13 +43,13 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
         }
         defaultValue: allowedVmSizes
       }
-      allowedVmSizeEnvironments: {
+      restrictedVmSizeEnvironments: {
         type: 'Array'
         metadata: {
           displayName: 'Environments to apply VM size restrition to.'
           description: 'The list of environments the VM Size restriction applies to.'
         }
-        defaultValue: allowedVmSizeEnvironments
+        defaultValue: restrictedVmSizeEnvironments
       }
     }
     policyRule: {
@@ -61,7 +61,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
           }
           {
             field: 'tags.environment'
-            in: '[parameters(\'allowedVmSizeEnvironments\')]'
+            in: '[parameters(\'restrictedVmSizeEnvironments\')]'
           }
           {
             not: {

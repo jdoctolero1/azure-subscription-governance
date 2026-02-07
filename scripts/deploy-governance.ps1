@@ -5,4 +5,5 @@ param (
 Write-Host "[INFO] Deploying Policies to Subscription"
 az deployment sub create `
   --location $Region `
-  --template-file ./orchestration/main.bicep
+  --template-file ./orchestration/main.bicep `
+  --parameters ./environments/lab/lab.bicepparam

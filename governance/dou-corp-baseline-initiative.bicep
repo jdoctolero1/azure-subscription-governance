@@ -10,20 +10,11 @@ var requiredTagName = 'environment'
 var initiativeVersion = '1.0.0'
 var initiativeCategory = 'Governance'
 
-// @description('The allowed environment tag values for this subscription')
-// param allowedEnvironmentTagValues array
-
-// @description('Allowed VM Sizes by environment environment')
-// param allowedLabVmSizes array
-
-// param labEnvironments array
-
 module restrictEnvironmentPolicy '../modules/custom-policies/restrict-environment-values.bicep' = {
   name: 'deploy-restrict-environment-policy'
   params: {
     policyName: 'deploy-restrict-environment-tag-values-policy'
     policyDisplayName: 'Restrict Environment Tag Values'
-    // allowedEnvironmentTagValues: allowedEnvironmentTagValues
   }
 }
 
@@ -32,8 +23,6 @@ module vmSizePolicy '../modules/custom-policies/restrict-vm-size.bicep' = {
   params: {
     policyName: 'deploy-vm-size-policy'
     policyDisplayName: 'Restrict VM Sizes by Environment'
-    // allowedVmSizes: allowedLabVmSizes
-    // environments: labEnvironments
   }
   dependsOn: [
     restrictEnvironmentPolicy
@@ -75,8 +64,8 @@ var policyDefinitions = [
        allowedVmSizes: {
         value: '[parameters(\'allowedVmSizes\')]'
        } 
-       allowedVmSizeEnvironments: {
-        value: '[parameters(\'allowedVmSizeEnvironments\')]'
+       restrictedVmSizeEnvironments: {
+        value: '[parameters(\'restrictedVmSizeEnvironments\')]'
        }       
       }
   }
@@ -116,14 +105,13 @@ module initiativeModule '../modules/initiatives/main.bicep' = {
         }
         defaultValue: ['Standard_B1s']
       }
-      allowedVmSizeEnvironments : {
+      restrictedVmSizeEnvironments : {
         type: 'Array'
         metadata: {
           displayName: 'Allowed VM sizes by environment'
         }
         defaultValue: ['lab']
       }
-
     }
     initiativePolicyDefinitions : policyDefinitions
   }
