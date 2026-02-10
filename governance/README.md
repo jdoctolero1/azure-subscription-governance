@@ -9,3 +9,6 @@ This directory contains the Bicep artifacts that define the DevOps Unlimited (DO
 
 ## Deployment
 - The ./orchestration/main.bicep file depends on these modules to create and assign the initiative.
+
+## Usage
+Any new initiative and it's assignments should be created in this directory.
