@@ -14,27 +14,38 @@ module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.b
 }
 
 //Assign the initiative to the current subscription
-module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subscription.bicep' = {
-  name: 'deploy-corporate-baseline-initiative-assignment'
+module corporateBaselineInitiativeAssignment '../governance/dou-corp-baseline-assignment.bicep' = {
   params: {
-    policyAssignmentName: 'DevOps Unlimited Corporate Baseline Assignment'
-    policyDefinitionId: corporateBaselineInitiative.outputs.initiativeId
-    policyParameters: {
-      tagName: { value: 'environment'}
-      allowedVmSizes: {
-        value: allowedVmSizes
-      }
-      restrictedVmSizeEnvironments: {
-        value: restrictedVmSizeEnvironments
-      }
-      allowedEnvironmentTagValues: {
-        value: allowedEnvironmentTagValues
-      }
-      listOfAllowedLocations: {
-        value: listOfAllowedLocations
-      }
-    }
+    initiativeId: corporateBaselineInitiative.outputs.initiativeId
+    allowedVmSizes: allowedVmSizes
+    restrictedVmSizeEnvironments: restrictedVmSizeEnvironments
+    allowedEnvironmentTagValues: allowedEnvironmentTagValues
+    listOfAllowedLocations: listOfAllowedLocations
   }
 }
+
+//Assign the initiative to the current subscription
+// module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subscription.bicep' = {
+//   name: 'deploy-corporate-baseline-initiative-assignment'
+//   params: {
+//     policyAssignmentName: 'DevOps Unlimited Corporate Baseline Assignment'
+//     policyDefinitionId: corporateBaselineInitiative.outputs.initiativeId
+//     policyParameters: {
+//       tagName: { value: 'environment'}
+//       allowedVmSizes: {
+//         value: allowedVmSizes
+//       }
+//       restrictedVmSizeEnvironments: {
+//         value: restrictedVmSizeEnvironments
+//       }
+//       allowedEnvironmentTagValues: {
+//         value: allowedEnvironmentTagValues
+//       }
+//       listOfAllowedLocations: {
+//         value: listOfAllowedLocations
+//       }
+//     }
+//   }
+// }
 
 output corporateBaselineInitiativeAssignmentId string = corporateBaselineInitiativeAssignment.outputs.policyAssignmentId
