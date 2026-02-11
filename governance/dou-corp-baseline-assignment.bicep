@@ -12,12 +12,11 @@ param allowedEnvironmentTagValues array
 param listOfAllowedLocations array
 
 module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.bicep' = {
-  name: 'deploy-environment-tag-initiative'
+
 }
 
 //Assign the initiative to the current subscription
 module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subscription.bicep' = {
-  name: 'deploy-corporate-baseline-initiative-assignment'
   params: {
     policyAssignmentName: 'DevOps Unlimited Corporate Baseline Assignment'
     policyDefinitionId: initiativeId

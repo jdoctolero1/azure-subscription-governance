@@ -9,12 +9,24 @@ param allowedEnvironmentTagValues array
 @description('The regions that resource are allowed to be created in.')
 param listOfAllowedLocations array
 
+@description('The name of the budget.')
+param budgetName string
+@description('The budget amount to be used as a baseline for forecasted and actual limits.')
+param budgetAmount int
+@description('Start date of the budget. IMPORTANT: Month must be greater than or equal to the current month if start date is this year.')
+param startDate string
+@description('Date the budget expires')
+param endDate string
+@description('The notification rules for the budget')
+param notifications object
+
 module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.bicep' = {
-  name: 'deploy-environment-tag-initiative'
+  name: 'deploy-corp-baseline-initiative'
 }
 
 //Assign the initiative to the current subscription
 module corporateBaselineInitiativeAssignment '../governance/dou-corp-baseline-assignment.bicep' = {
+  name: 'deploy-dou-corp-baseline-initiative-assignment'
   params: {
     initiativeId: corporateBaselineInitiative.outputs.initiativeId
     allowedVmSizes: allowedVmSizes
@@ -24,28 +36,22 @@ module corporateBaselineInitiativeAssignment '../governance/dou-corp-baseline-as
   }
 }
 
-//Assign the initiative to the current subscription
-// module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subscription.bicep' = {
-//   name: 'deploy-corporate-baseline-initiative-assignment'
-//   params: {
-//     policyAssignmentName: 'DevOps Unlimited Corporate Baseline Assignment'
-//     policyDefinitionId: corporateBaselineInitiative.outputs.initiativeId
-//     policyParameters: {
-//       tagName: { value: 'environment'}
-//       allowedVmSizes: {
-//         value: allowedVmSizes
-//       }
-//       restrictedVmSizeEnvironments: {
-//         value: restrictedVmSizeEnvironments
-//       }
-//       allowedEnvironmentTagValues: {
-//         value: allowedEnvironmentTagValues
-//       }
-//       listOfAllowedLocations: {
-//         value: listOfAllowedLocations
-//       }
-//     }
-//   }
-// }
+//Build the budget
+module corporateBudget '../governance/dou-corp-budget.bicep' = {
+  name: 'deploy-dou-corp-budget'
+  params: {
+     budgetName: budgetName
+     budgetAmount: budgetAmount
+     startDate: startDate
+     endDate: endDate
+     notifications: notifications
+  }
+  dependsOn: [
+    corporateBaselineInitiative
+    corporateBaselineInitiativeAssignment
+  ]
+}
 
+output corporateBaselineInitiativeId string = corporateBaselineInitiative.outputs.initiativeId
 output corporateBaselineInitiativeAssignmentId string = corporateBaselineInitiativeAssignment.outputs.policyAssignmentId
+output corporateBudgetId string = corporateBudget.outputs.budgetId
