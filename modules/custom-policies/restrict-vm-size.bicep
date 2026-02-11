@@ -60,7 +60,7 @@ resource restrictVmSizePolicyDefinition 'Microsoft.Authorization/policyDefinitio
             equals: 'Microsoft.Compute/virtualMachines'
           }
           {
-            field: 'tags.environment'
+            field: 'tags.Environment'
             in: '[parameters(\'restrictedVmSizeEnvironments\')]'
           }
           {

@@ -6,7 +6,7 @@ var initiativeName = 'dou-corp-baseline-initiative'
 var initiativeDisplayName = '[Custom] DevOps Unlimited Corporate Baseline'
 var initiativeDescription ='Initiative sets the standard governance for DevOps Unlimited.'
 var initiativePolicyType = 'Custom'
-var requiredTagName = 'environment'
+var requiredTagName = 'Environment'
 var initiativeVersion = '1.0.0'
 var initiativeCategory = 'Governance'
 

@@ -40,12 +40,12 @@ resource restrictEnvironmentTagValuesPolicyDefinition 'Microsoft.Authorization/p
       if: {
         allOf: [
           {
-            field: 'tags[environment]'
+            field: 'tags[Environment]'
             exists: 'true'
           }
           {
             // This checks if the LOWERCASE version of the tag value is NOT in your list
-            value: '[toLower(field(\'tags[environment]\'))]'
+            value: '[toLower(field(\'tags[Environment]\'))]'
             notIn: '[parameters(\'allowedEnvironmentTagValues\')]'
           }
         ]
