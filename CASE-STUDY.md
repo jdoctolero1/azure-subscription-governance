@@ -14,8 +14,8 @@ Using bicep templates the engineering team developed a governance methodology to
 A baseline Initiative has been established and assigned to manage governance of subscriptions.
 
 Policies Applied
-- Require the Tag named 'environment' on all resources.
-- All resources will inherit the 'environment' tag from it's resource group.
-- Restrict the values the 'environment' tag may have.
-- For non-production environments restrict the VM Sizes that are allowed based on the 'environment' tag.
+- Require the Tag named 'Environment' on all resources.
+- All resources will inherit the 'Environment' tag from it's resource group.
+- Restrict the values the 'Environment' tag may have.
+- For non-production environments restrict the VM Sizes that are allowed to be provisioned based on the 'Environment' tag.
 - Limit the regions in which resources can be provisioned.
