@@ -3,7 +3,7 @@ param (
   [string]$Environment = "lab"
 )
 
-Write-Host "[INFO] Deploying Policies to Subscription"
+Write-Host "[INFO] $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff zzz') Deploying Subscription Governance"
 az deployment sub create `
   --name "deploy-corp-governance-$(Get-Date -Format 'yyyyMMddHHmmss')" `
   --location $Region `
