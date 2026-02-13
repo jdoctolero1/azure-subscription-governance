@@ -11,10 +11,6 @@ param allowedEnvironmentTagValues array
 @description('The regions that resource are allowed to be created in.')
 param listOfAllowedLocations array
 
-module corporateBaselineInitiative '../governance/dou-corp-baseline-initiative.bicep' = {
-
-}
-
 //Assign the initiative to the current subscription
 module corporateBaselineInitiativeAssignment '../modules/policy-assignments/subscription.bicep' = {
   params: {

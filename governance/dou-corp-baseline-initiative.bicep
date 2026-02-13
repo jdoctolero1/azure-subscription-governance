@@ -13,7 +13,7 @@ var initiativeCategory = 'Governance'
 module restrictEnvironmentPolicy '../modules/custom-policies/restrict-environment-values.bicep' = {
   name: 'deploy-restrict-environment-policy'
   params: {
-    policyName: 'deploy-restrict-environment-tag-values-policy'
+    policyName: 'restrict-environment-tag-values-policy'
     policyDisplayName: 'Restrict Environment Tag Values'
   }
 }
@@ -21,7 +21,7 @@ module restrictEnvironmentPolicy '../modules/custom-policies/restrict-environmen
 module vmSizePolicy '../modules/custom-policies/restrict-vm-size.bicep' = {
   name: 'deploy-vm-size-policy'
   params: {
-    policyName: 'deploy-vm-size-policy'
+    policyName: 'restric-vm-size-policy'
     policyDisplayName: 'Restrict VM Sizes by Environment'
   }
   dependsOn: [
