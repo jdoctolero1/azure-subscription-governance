@@ -16,7 +16,7 @@ The custom policy definitions built by this project include:
 Creates a baseline inititaive to manage tags for governance and to restrict VM sizes and regions that resource can be deployed in.
 
 The built-in policy scenarios targeted by this repo include:
-- Enforcing a tag on resources
+- Enforcing a tag on resources and resource groups
 - Enforcing allowed locations
 - Inheriting tags from the resource group
 - Restrict locations resources can be applied

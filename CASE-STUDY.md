@@ -14,6 +14,7 @@ Using bicep templates the engineering team developed a governance methodology to
 A baseline Initiative has been established and assigned to manage governance of subscriptions.
 
 ### Policies Applied
+- Require the Tag named 'Environment' on all resource groups.
 - Require the Tag named 'Environment' on all resources.
 - All resources will inherit the 'Environment' tag from it's resource group.
 - Restrict the values the 'Environment' tag may have.
