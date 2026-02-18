@@ -39,6 +39,15 @@ var policyDefinitions = [
       }
     }
   }
+  //Require 'environment' tag on resource group
+  {
+    policyDefinitionId: tenantResourceId(policyDefinitionResourceRoot, '96670d01-0a4d-4649-9c89-2d3abc0a5025')
+    parameters: {
+      tagName: {
+        value: '[parameters(\'tagName\')]'
+      }
+    }
+  }  
   //Inherit environment tag from resource group
   {
     policyDefinitionId: tenantResourceId(policyDefinitionResourceRoot, 'cd3aa116-8754-49c9-a813-ad46512ece54')
